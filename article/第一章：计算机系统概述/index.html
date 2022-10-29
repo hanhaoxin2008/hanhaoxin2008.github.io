@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"hanhaoxin2008.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文是对计算机系统的介绍。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第一章：计算机系统概述">
+<meta property="og:url" content="https://hanhaoxin2008.github.io/article/%E7%AC%AC%E4%B8%80%E7%AB%A0%EF%BC%9A%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/index.html">
+<meta property="og:site_name" content="韩昊鑫的小屋">
+<meta property="og:description" content="本文是对计算机系统的介绍。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic1.zhimg.com/v2-f8f082641a793f54b240a3bedc01be50_b.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/v2-3f91e6af54a662b9d5b72731171ef3b4_b.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/v2-400ee3ebfddf3d69912ac93f011374ed_b.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/v2-69a1d35329ee45fc170771d35a166b86_b.jpg">
+<meta property="og:image" content="https://pic4.zhimg.com/v2-944e43e25966b494973463043e549bab_b.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/v2-1dae6cfbd865f753be7315f812069af2_b.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/v2-027a4d6e589fb343988ccfa78f34fc96_b.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/v2-8565f5dd792980b286d549bb7e6024a9_b.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/v2-2daf226d97d2b36ccd8fcdf01a07dab4_b.jpg">
+<meta property="article:published_time" content="2022-10-22T07:09:04.000Z">
+<meta property="article:modified_time" content="2022-10-22T07:12:20.272Z">
+<meta property="article:author" content="韩昊鑫">
+<meta property="article:tag" content="计算机组成原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic1.zhimg.com/v2-f8f082641a793f54b240a3bedc01be50_b.jpg">
+
+<link rel="canonical" href="https://hanhaoxin2008.github.io/article/%E7%AC%AC%E4%B8%80%E7%AB%A0%EF%BC%9A%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>第一章：计算机系统概述 | 韩昊鑫的小屋</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">韩昊鑫的小屋</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">stay hungry stay foolish</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hanhaoxin2008.github.io/article/%E7%AC%AC%E4%B8%80%E7%AB%A0%EF%BC%9A%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="韩昊鑫">
+      <meta itemprop="description" content="一个分享技术的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="韩昊鑫的小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第一章：计算机系统概述
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-10-22 15:09:04 / 修改时间：15:12:20" itemprop="dateCreated datePublished" datetime="2022-10-22T15:09:04+08:00">2022-10-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/" itemprop="url" rel="index"><span itemprop="name">计算机</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">本文是对计算机系统的介绍。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="第一章：计算机系统概述"><a href="#第一章：计算机系统概述" class="headerlink" title="第一章：计算机系统概述"></a>第一章：计算机系统概述</h1><h2 id="1-计算机组成原理概论"><a href="#1-计算机组成原理概论" class="headerlink" title="1. 计算机组成原理概论"></a>1. 计算机组成原理概论</h2><p><strong>计算机</strong>：数字电子计算机</p>
+<p><strong>组成</strong>：计算机硬件系统的逻辑实现</p>
+<p><strong>原理</strong>：不以具体机型为依托的，基本实现原理。</p>
+<p>计算机组成原理：掌握如何实现的具体细节。</p>
+<h3 id="1-1-计算机系统简介"><a href="#1-1-计算机系统简介" class="headerlink" title="1.1 计算机系统简介"></a>1.1 计算机系统简介</h3><p>计算机系统由两大部分组成：硬件和软件。软件又包括系统软件和应用软件。</p>
+<p>系统软件可以管理整个计算机系统：</p>
+<ul>
+<li><p><strong>语言处理程序（将高级语言转换为机器可以懂的指令）</strong></p>
+</li>
+<li><p><strong>操作系统</strong></p>
+</li>
+<li><p><strong>服务性程序（比如数学库、MPI服务程序进行并行之间的通信）</strong></p>
+</li>
+<li><p><strong>数据库管理系统</strong></p>
+</li>
+<li><p><strong>网络软件</strong></p>
+</li>
+</ul>
+<p>应用软件是按照任务需要编制成的程序。</p>
+<p>可以简单将软硬件看作一个层次结构，<strong>硬件为软件提供接口，系统软件又为应用软件形成接口，来完成不同的程序。</strong></p>
+<p>对于计算机的物理结构层次，我们这门课主要研究逻辑层和微电路层的具体实现方式。</p>
+<p>计算机系统的指令层次如下图所示</p>
+<p><img src="https://pic1.zhimg.com/v2-f8f082641a793f54b240a3bedc01be50_b.jpg"></p>
+<p>操作系统可以管理软硬件的资源。</p>
+<p><img src="https://pic1.zhimg.com/v2-3f91e6af54a662b9d5b72731171ef3b4_b.jpg"></p>
+<p>计算机系统结构<strong>定义了系统软硬件的交界面，定义了哪些功能由软件实现，哪些功能由硬件实现</strong>，定义为&#x3D;&#x3D;<strong>程序员所见到的计算机系统的属性概念性的结构与功能特性</strong>&#x3D;&#x3D;。（指令系统，数据类型，寻址技术，I&#x2F;O机理），即程序员需要理解的东西。</p>
+<p>计算机组成：实现计算机体系结构所体现的属性，即<strong>具体指令的实现。</strong></p>
+<h3 id="1-2-计算机的基本组成"><a href="#1-2-计算机的基本组成" class="headerlink" title="1.2 计算机的基本组成"></a>1.2 计算机的基本组成</h3><h3 id="1-2-1-冯诺依曼结构"><a href="#1-2-1-冯诺依曼结构" class="headerlink" title="1.2.1 冯诺依曼结构"></a>1.2.1 冯诺依曼结构</h3><p><img src="https://pic2.zhimg.com/v2-400ee3ebfddf3d69912ac93f011374ed_b.jpg"></p>
+<p>上图实线表示数据流动，虚线表示控制反馈。</p>
+<ul>
+<li><p>计算机结构由五大部件组成：<strong>存储器、运算器、控制器、输入设备、输出设备</strong>。</p>
+</li>
+<li><p><strong>以运算器为中心</strong>，**&#x3D;&#x3D;程序存储在存储器中&#x3D;&#x3D;**。</p>
+</li>
+<li><p><strong>指令和数据以同等地位</strong>保存在存储器中，可以按照地址寻找。</p>
+</li>
+<li><p>指令和数据由二进制表示，指令由操作码和地址码组成，<strong>操作码指明指令要干什么，地址码指明操作数的地址。</strong></p>
+</li>
+</ul>
+<p>冯诺依曼结构以运算器为中心，容易形成瓶颈。我们可以使用存储器作为中心来进行优化，但是还不够。</p>
+<h3 id="1-2-2-现代计算机硬件框图"><a href="#1-2-2-现代计算机硬件框图" class="headerlink" title="1.2.2 现代计算机硬件框图"></a>1.2.2 现代计算机硬件框图</h3><p><img src="https://pic3.zhimg.com/v2-69a1d35329ee45fc170771d35a166b86_b.jpg"></p>
+<p>指令和数据都是保存在存储器中的。</p>
+<h3 id="1-2-3-存储器的基本组成"><a href="#1-2-3-存储器的基本组成" class="headerlink" title="1.2.3 存储器的基本组成"></a>1.2.3 存储器的基本组成</h3><p><img src="https://pic4.zhimg.com/v2-944e43e25966b494973463043e549bab_b.jpg"></p>
+<p><strong>MAR是存储器地址寄存器，保存了存储单元的地址和编号，长度反映存储单元的个数。</strong></p>
+<p><strong>MDR是存储器数据寄存器，保存了要存入存储体的数据或刚从存储体拿出来的数据，长度反映存储字长。</strong></p>
+<p>利用MAR和MDR来将数据放入存储器。</p>
+<h3 id="1-2-4-运算器的结构"><a href="#1-2-4-运算器的结构" class="headerlink" title="1.2.4 运算器的结构"></a>1.2.4 运算器的结构</h3><p><img src="https://pic3.zhimg.com/v2-1dae6cfbd865f753be7315f812069af2_b.jpg"></p>
+<p>ALU（算术逻辑单元），通常是一个组合电路，输入撤销，输出也撤销，<strong>因此需要加上寄存器保存参与运算的计算</strong>。</p>
+<p>数据寄存器X保存输入参数，ACC为累加寄存器，保存结果，<strong>乘法可能使得数据位数保存不下，使用MQ寄存器保存低位。</strong></p>
+<p>上表中存放了不同运算中，运算器的工作过程，以乘法为例，操作过程如下：</p>
+<p><img src="https://pic3.zhimg.com/v2-027a4d6e589fb343988ccfa78f34fc96_b.jpg"></p>
+<ul>
+<li><p>首先将被乘数取出来放到ACC中</p>
+</li>
+<li><p>从指令中的乘数地址M中取出乘数，送入MQ中</p>
+</li>
+<li><p>将被乘数送到X中</p>
+</li>
+<li><p>将ACC清零</p>
+</li>
+<li><p>完成乘法操作，结果由ACC和MQ保存</p>
+</li>
+</ul>
+<p>这些操作的过程顺序是由<strong>控制器来控制完成的。</strong></p>
+<h3 id="1-2-5-控制器的基本结构"><a href="#1-2-5-控制器的基本结构" class="headerlink" title="1.2.5 控制器的基本结构"></a>1.2.5 控制器的基本结构</h3><p>控制器的功能是<strong>解释指令（完成指令）、保证指令的按序执行</strong>。</p>
+<p><img src="https://pic2.zhimg.com/v2-8565f5dd792980b286d549bb7e6024a9_b.jpg"></p>
+<ul>
+<li><p><strong>PC（程序计数器）寄存器保存了当前指令的地址，进行取指令，PC有计数功能。</strong></p>
+</li>
+<li><p><strong>IR（指令寄存器）存放当前要执行的指令，将操作码送入CU进行分析。</strong></p>
+</li>
+<li><p><strong>CU（控制单元）发出控制信号，控制相对应的部件来执行指令。</strong></p>
+</li>
+</ul>
+<p>下面以取数指令为例分析指令执行过程（取数送到ACC中）</p>
+<p><img src="https://pic1.zhimg.com/v2-2daf226d97d2b36ccd8fcdf01a07dab4_b.jpg"></p>
+<ol>
+<li><p>PC保存指令的地址，送到MAR进行寻址</p>
+</li>
+<li><p>MAR根据地址到存储体中找到保存的指令</p>
+</li>
+<li><p>MDR从存储体中取出指令</p>
+</li>
+<li><p>送到IR中，IR存放要执行的指令</p>
+</li>
+<li><p>IR将操作码送入CU中进行分析</p>
+</li>
+<li><p>同时将地址码送到MAR中找这个数的数据</p>
+</li>
+<li><p>MAR根据地址到存储体中找到要取的数</p>
+</li>
+<li><p>MDR保存从存储体中取出的数</p>
+</li>
+<li><p>CU控制下，将要取的数送到ACC中。</p>
+</li>
+</ol>
+<p><strong>CU分析控制这些步骤的过程。</strong></p>
+<h3 id="1-3-计算机硬件的主要技术指标"><a href="#1-3-计算机硬件的主要技术指标" class="headerlink" title="1.3 计算机硬件的主要技术指标"></a>1.3 计算机硬件的主要技术指标</h3><ul>
+<li><p>机器字长：CPU一次能处理数据的位数，与CPU中寄存器位数有关。</p>
+</li>
+<li><p>运算速度：主频、核数以及每个核支持的线程数、CPI（执行一条指令所需的时钟周期数）、MIPS（每秒执行百万条指令）、FLOPS（每秒浮点运算次数）。</p>
+</li>
+<li><p>存储容量：主存容量（可使用存储单元个数×存储字长来表示存储体容量，MAR * MDR）（也可使用字节数来表示）、辅存容量（字节数表示）。</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" rel="tag"># 计算机组成原理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/article/%E7%90%86%E8%A7%A3%E8%A7%A3%E9%87%8A%E5%92%8C%E7%BC%96%E8%AF%91/" rel="prev" title="理解解释和编译">
+      <i class="fa fa-chevron-left"></i> 理解解释和编译
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/article/%E5%B0%8F%E8%AF%B4%E4%B8%8B%E8%BD%BD%E5%99%A8/" rel="next" title="小说下载器">
+      小说下载器 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0%EF%BC%9A%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">第一章：计算机系统概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E6%A6%82%E8%AE%BA"><span class="nav-number">1.1.</span> <span class="nav-text">1. 计算机组成原理概论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 计算机系统简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 计算机的基本组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-%E5%86%AF%E8%AF%BA%E4%BE%9D%E6%9B%BC%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.2.1 冯诺依曼结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-2-%E7%8E%B0%E4%BB%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E6%A1%86%E5%9B%BE"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.2.2 现代计算机硬件框图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-3-%E5%AD%98%E5%82%A8%E5%99%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90"><span class="nav-number">1.1.5.</span> <span class="nav-text">1.2.3 存储器的基本组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-4-%E8%BF%90%E7%AE%97%E5%99%A8%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.6.</span> <span class="nav-text">1.2.4 运算器的结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-5-%E6%8E%A7%E5%88%B6%E5%99%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.7.</span> <span class="nav-text">1.2.5 控制器的基本结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A1%AC%E4%BB%B6%E7%9A%84%E4%B8%BB%E8%A6%81%E6%8A%80%E6%9C%AF%E6%8C%87%E6%A0%87"><span class="nav-number">1.1.8.</span> <span class="nav-text">1.3 计算机硬件的主要技术指标</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">韩昊鑫</p>
+  <div class="site-description" itemprop="description">一个分享技术的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">韩昊鑫</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
